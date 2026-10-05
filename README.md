@@ -94,3 +94,73 @@ The project uses **FastAPI** for the backend, **MongoDB** for database managemen
                     │      MongoDB        │
                     │      Database       │
                     └─────────────────────┘
+
+## Project Structure
+
+```text
+ShopEasy/
+├── app/
+│   ├── routers/
+│   ├── templates/
+│   ├── static/
+│   ├── config.py
+│   ├── database.py
+│   └── main.py
+├── scripts/
+│   └── seed.py
+├── requirements.txt
+├── .gitignore
+└── README.md
+```
+
+## Setup
+
+```bash
+git clone https://github.com/YOUR_USERNAME/ShopEasy-MongoDB.git
+cd ShopEasy-MongoDB
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+Create `.env`:
+
+```env
+MONGO_URI=mongodb://127.0.0.1:27017
+MONGO_DB=shopeasy
+SESSION_SECRET=your-secret-key
+```
+
+Seed the database:
+
+```bash
+python -m scripts.seed
+```
+
+Run the application:
+
+```bash
+uvicorn app.main:app --reload
+```
+
+Open:
+
+```text
+http://127.0.0.1:8000
+```
+
+## Future Updates
+
+- Admin dashboard
+- Add/Edit/Delete products
+- Inventory management
+- Sales and order analytics
+- Low-stock alerts
+
+## Developer
+
+**Ayush Mishra**  
+BSc Information Technology  
+KES Shroff College
+
+> Academic project developed for educational purposes.
