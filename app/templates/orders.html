@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}My orders{% endblock %}
+{% block content %}
+<section class="page-heading"><div><span class="eyebrow">YOUR SHOPPING JOURNEY</span><h1>My orders</h1><p>All your ShopEasy orders, together in one place.</p></div><a class="text-link" href="/products">Explore products →</a></section>
+{% if orders %}
+<section class="orders-list" aria-label="Order history">
+    {% for o in orders %}
+    <article class="order-card">
+        <div class="order-card-top"><div><span class="eyebrow">ORDER REFERENCE</span><h2>#{{ o.order_id }}</h2></div><span class="status status-{{ o.status|lower }}">{{ o.status }}</span></div>
+        <div class="order-card-bottom"><div class="order-detail"><small>Placed on</small><strong>{{ o.order_date }}</strong></div><div class="order-detail"><small>Order total</small><strong class="order-price">₹{{ o.total_amount }}</strong></div><a href="/orders/{{ o.order_id }}" class="button button-outline">View order <span aria-hidden="true">→</span></a></div>
+    </article>
+    {% endfor %}
+</section>
+{% else %}
+<div class="empty-state"><span class="empty-icon">◎</span><h2>No orders just yet</h2><p>When you place your first order, its details will be waiting for you here.</p><a href="/products" class="button button-primary">Browse the collection <span aria-hidden="true">→</span></a></div>
+{% endif %}
+{% endblock %}

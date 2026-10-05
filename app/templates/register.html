@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Create account{% endblock %}
+{% block content %}
+<section class="auth-layout register-layout">
+    <div class="auth-story register-story">
+        <span class="eyebrow eyebrow-light">MAKE ROOM FOR GOOD THINGS</span>
+        <h1>Your everyday<br>starts here.</h1>
+        <p>Create your ShopEasy account and make your next useful find just a few clicks away.</p>
+        <div class="register-perks"><span><b>01</b> Browse the collection</span><span><b>02</b> Keep your orders together</span><span><b>03</b> Shop whenever you like</span></div>
+        <div class="register-art"><img src="/static/images/backpack-bottle.jpg" alt="Everyday essentials for life on the go"></div>
+    </div>
+    <div class="auth-panel register-panel">
+        <span class="eyebrow">JOIN THE SHOP</span>
+        <h2>Create your account</h2>
+        <p class="auth-intro">A few details and you’re ready to discover.</p>
+        {% if error %}<p class="message message-error" role="alert"><span aria-hidden="true">!</span>{{ error }}</p>{% endif %}
+        <form method="post" action="/register" class="form-card">
+            <label for="name">Full name</label>
+            <input id="name" type="text" name="name" placeholder="Your name" autocomplete="name" required>
+            <label for="email">Email address</label>
+            <input id="email" type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+            <label for="phone">Phone</label>
+            <input id="phone" type="text" name="phone" placeholder="Your phone number" autocomplete="tel" required>
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" placeholder="Create a password" autocomplete="new-password" required>
+            <label for="address">Address</label>
+            <textarea id="address" name="address" placeholder="Your delivery address" autocomplete="street-address" required></textarea>
+            <button type="submit" class="button button-primary form-submit">Create account <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="auth-switch">Already have an account? <a href="/login">Sign in</a></p>
+    </div>
+</section>
+{% endblock %}

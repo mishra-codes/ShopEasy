@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Discover{% endblock %}
+{% block content %}
+<section class="hero-section">
+    <div class="hero-copy">
+        <span class="eyebrow"><span class="eyebrow-dot"></span> THE GOOD-FIND EDIT</span>
+        <h1>Little upgrades.<br><span>Better every day.</span></h1>
+        <p>Discover useful things for work, home and everywhere in between. Good design, everyday essentials, all in one easy place.</p>
+        <a class="button button-primary hero-cta" href="#catalog">Explore the collection <span aria-hidden="true">→</span></a>
+        <div class="hero-points"><span><i class="point-check">✓</i> Curated essentials</span><span><i class="point-check">✓</i> Easy to shop</span></div>
+    </div>
+    <div class="hero-visual">
+        <div class="hero-image-wrap"><img src="/static/images/laptop.jpg" alt="Laptop on a bright, tidy desk"></div>
+        <div class="hero-note"><span class="note-sparkle">✳</span><span><strong>Find your next favorite</strong><small>Useful things, picked for you</small></span></div>
+        <div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
+    </div>
+</section>
+
+<section class="trust-strip" aria-label="ShopEasy highlights">
+    <div><span class="trust-icon">✦</span><span><strong>Thoughtfully selected</strong><small>Good picks for daily life</small></span></div>
+    <div><span class="trust-icon">◎</span><span><strong>Simple shopping</strong><small>Everything in one place</small></span></div>
+    <div><span class="trust-icon">↗</span><span><strong>Ready when you are</strong><small>Browse at your own pace</small></span></div>
+</section>
+
+<section class="catalog-section" id="catalog">
+    <div class="section-heading">
+        <div><span class="eyebrow">THE SHOP</span><h2>Find something useful</h2><p>Everyday pieces to make your routine a little better.</p></div>
+        <span class="collection-tag">THE EVERYDAY COLLECTION</span>
+    </div>
+    {% if products %}
+    <div class="product-grid">
+        {% for p in products %}
+        <article class="product-card">
+            <div class="product-image">
+                {% if 'mouse' in p.name|lower or 'keyboard' in p.name|lower %}
+                    <img src="/static/images/keyboard-mouse.jpg" alt="{{ p.name }}">
+                {% elif 'hub' in p.name|lower or 'phone' in p.name|lower or 'smartphone' in p.name|lower %}
+                    <img src="/static/images/smartphone.jpg" alt="{{ p.name }}">
+                {% elif 'backpack' in p.name|lower or 'bottle' in p.name|lower %}
+                    <img src="/static/images/backpack-bottle.jpg" alt="{{ p.name }}">
+                {% elif 'laptop' in p.name|lower or 'computer' in p.name|lower %}
+                    <img src="/static/images/laptop.jpg" alt="{{ p.name }}">
+                {% elif 'headphone' in p.name|lower or 'audio' in p.name|lower %}
+                    <img src="/static/images/wireless-headphones.jpg" alt="{{ p.name }}">
+                {% elif 'watch' in p.name|lower %}
+                    <img src="/static/images/smartwatch.jpg" alt="{{ p.name }}">
+                {% elif 'camera' in p.name|lower %}
+                    <img src="/static/images/camera.jpg" alt="{{ p.name }}">
+                {% else %}
+                    <img src="/static/images/smartphone.jpg" alt="{{ p.name }}">
+                {% endif %}
+                <span class="image-label">SHOP EASY</span>
+            </div>
+            <div class="product-info">
+                <div class="product-meta"><span class="category">{{ p.category }}</span><span class="stock {% if p.stock_qty <= 0 %}out{% endif %}">{% if p.stock_qty > 0 %}{{ p.stock_qty }} in stock{% else %}Out of stock{% endif %}</span></div>
+                <h3>{{ p.name }}</h3>
+                <p class="product-caption">A thoughtful pick for your everyday routine.</p>
+                <div class="product-bottom"><p class="price">₹{{ p.price }}</p>
+                    {% if request.session.get('customer_id') and p.stock_qty > 0 %}
+                    <form method="post" action="/cart/add" class="add-form">
+                        <input type="hidden" name="product_id" value="{{ p.product_id }}">
+                        <input type="number" name="qty" value="1" min="1" max="{{ p.stock_qty }}" aria-label="Quantity for {{ p.name }}">
+                        <button type="submit" class="button button-primary add-button"><span aria-hidden="true">＋</span> Add to cart</button>
+                    </form>
+                    {% elif not request.session.get('customer_id') %}
+                    <a href="/login" class="button button-soft add-button">Sign in to shop <span aria-hidden="true">→</span></a>
+                    {% else %}
+                    <span class="button button-disabled add-button">Currently unavailable</span>
+                    {% endif %}
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state"><span class="empty-icon">✳</span><h3>More good finds are on the way</h3><p>There are no products to show just yet. Check back soon.</p></div>
+    {% endif %}
+</section>
+{% endblock %}

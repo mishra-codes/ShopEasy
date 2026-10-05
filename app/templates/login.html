@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Sign in{% endblock %}
+{% block content %}
+<section class="auth-layout">
+    <div class="auth-story login-story">
+        <span class="eyebrow eyebrow-light">WELCOME BACK</span>
+        <h1>Good to see<br>you again.</h1>
+        <p>Your next everyday favorite is just around the corner. Sign in to pick up where you left off.</p>
+        <div class="auth-art"><div class="auth-art-circle"></div><img src="/static/images/wireless-headphones.jpg" alt="Wireless headphones"></div>
+        <span class="story-caption">GOOD FINDS, MADE SIMPLE.</span>
+    </div>
+    <div class="auth-panel">
+        <span class="eyebrow">YOUR SHOP, YOUR WAY</span>
+        <h2>Sign in to ShopEasy</h2>
+        <p class="auth-intro">Enter your account details to continue.</p>
+        {% if error %}<p class="message message-error" role="alert"><span aria-hidden="true">!</span>{{ error }}</p>{% endif %}
+        <form method="post" action="/login" class="form-card">
+            <label for="email">Email address</label>
+            <input id="email" type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+            <button type="submit" class="button button-primary form-submit">Sign in <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="auth-switch">New to ShopEasy? <a href="/register">Create an account</a></p>
+        <div class="auth-footnote"><span aria-hidden="true">◇</span> A simpler way to shop everyday essentials.</div>
+    </div>
+</section>
+{% endblock %}

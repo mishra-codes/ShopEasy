@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Order #{{ order.order_id }}{% endblock %}
+{% block content %}
+<div class="breadcrumb"><a href="/orders">My orders</a><span aria-hidden="true">/</span><span>Order details</span></div>
+<section class="order-hero"><div><span class="eyebrow">THANK YOU FOR SHOPPING WITH US</span><h1>Order details</h1><p>Reference <strong>#{{ order.order_id }}</strong></p></div><span class="status status-{{ order.status|lower }}">{{ order.status }}</span></section>
+<div class="order-detail-layout">
+    <section class="order-items-card">
+        <div class="detail-card-heading"><div><span class="eyebrow">YOUR ORDER</span><h2>Items in this order</h2></div><span class="placed-date">Placed on {{ order.order_date }}</span></div>
+        <div class="detail-items">
+            {% for item in items %}
+            <article class="detail-item"><div class="detail-item-art"><span>✳</span></div><div class="detail-item-name"><h3>{{ item.name }}</h3><p>Quantity: {{ item.qty }}</p></div><div class="detail-item-price"><small>₹{{ item.price_at_order }} each</small><strong>₹{{ item.line_total }}</strong></div></article>
+            {% endfor %}
+        </div>
+        <div class="detail-total"><span>Order total</span><strong>₹{{ order.total_amount }}</strong></div>
+    </section>
+    <aside class="payment-card">
+        {% if payment %}
+        <div class="payment-success-icon">✓</div><span class="eyebrow">PAYMENT UPDATE</span><h2>Payment received</h2>
+        <p class="payment-description">Your payment details are recorded below.</p>
+        <div class="payment-status-row"><span>Payment status</span><span class="payment-badge payment-success">{{ payment.status }}</span></div>
+        <div class="payment-data"><div><small>Method</small><strong>{{ payment.method }}</strong></div><div><small>Amount</small><strong>₹{{ payment.amount }}</strong></div><div><small>Payment date</small><strong>{{ payment.payment_date }}</strong></div></div>
+        {% else %}
+        <span class="eyebrow">ONE LAST STEP</span><h2>Complete payment</h2><p class="payment-description">Choose a payment method to finish your order.</p>
+        <form method="post" action="/orders/{{ order.order_id }}/pay" class="form-card payment-form">
+            <label for="amount">Amount</label>
+            <div class="amount-field"><span>₹</span><input id="amount" type="number" step="0.01" name="amount" value="{{ order.total_amount }}" required></div>
+            <label for="method">Payment method</label>
+            <select id="method" name="method">
+                <option value="Credit Card">Credit Card</option>
+                <option value="Debit Card">Debit Card</option>
+                <option value="UPI">UPI</option>
+                <option value="Net Banking">Net Banking</option>
+            </select>
+            <button type="submit" class="button button-primary form-submit">Pay now <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="payment-footnote"><span aria-hidden="true">◇</span> This demo records your selected payment method.</p>
+        {% endif %}
+    </aside>
+</div>
+<div class="detail-footer-link"><a href="/orders" class="text-link">← Back to my orders</a></div>
+{% endblock %}

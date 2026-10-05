@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7f8fc">
+    <title>{% block title %}ShopEasy{% endblock %} · ShopEasy</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="announcement-bar">
+        <span>Thoughtful finds. Everyday value.</span>
+        <span class="announcement-note">A little easier, every day.</span>
+    </div>
+    <header class="site-header">
+        <nav class="navbar container-wide" aria-label="Main navigation">
+            <a href="/products" class="brand" aria-label="ShopEasy home">
+                <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+                <span>shop<span class="brand-accent">easy</span><small>GOOD FINDS, MADE SIMPLE</small></span>
+            </a>
+            <div class="nav-links">
+                <a href="/products" class="nav-link">Discover</a>
+                {% if request.session.get('customer_id') %}
+                    <a href="/cart" class="nav-link">Cart</a>
+                    <a href="/orders" class="nav-link">My orders</a>
+                    <span class="welcome">Hi, {{ request.session.get('customer_name') }}</span>
+                    <a href="/logout" class="nav-account">Sign out</a>
+                {% else %}
+                    <a href="/login" class="nav-link">Sign in</a>
+                    <a href="/register" class="nav-account">Create account</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+    <main class="container-wide page-main">
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="site-footer">
+        <div class="container-wide footer-inner">
+            <a href="/products" class="brand footer-brand">
+                <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+                <span>shop<span class="brand-accent">easy</span><small>GOOD FINDS, MADE SIMPLE</small></span>
+            </a>
+            <p>Everyday essentials, thoughtfully picked.</p>
+            <span class="footer-copy">© ShopEasy</span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Your cart{% endblock %}
+{% block content %}
+<section class="page-heading"><div><span class="eyebrow">YOUR SHOPPING BAG</span><h1>Your cart</h1><p>Take a look at your picks before placing your order.</p></div><a class="text-link" href="/products">← Continue browsing</a></section>
+{% if error %}<p class="message message-error cart-error" role="alert"><span aria-hidden="true">!</span>{{ error }}</p>{% endif %}
+{% if items %}
+<div class="cart-layout">
+    <section class="cart-card" aria-label="Cart items">
+        <div class="cart-card-heading"><div><h2>Your picks</h2><p>Review quantities or remove an item.</p></div><span class="cart-count">{{ items|length }} item{% if items|length != 1 %}s{% endif %}</span></div>
+        <div class="cart-list">
+            {% for item in items %}
+            <article class="cart-item">
+                <div class="cart-item-art"><span class="cart-art-glyph">✳</span></div>
+                <div class="cart-item-main"><span class="eyebrow">SHOP EASY PICK</span><h3>{{ item.name }}</h3><p class="cart-unit-price">₹{{ item.price }} <span>each</span></p></div>
+                <div class="cart-item-controls">
+                    <form method="post" action="/cart/update" class="quantity-form">
+                        <input type="hidden" name="cart_item_id" value="{{ item.cart_item_id }}">
+                        <label for="qty-{{ item.cart_item_id }}">Qty</label>
+                        <input id="qty-{{ item.cart_item_id }}" type="number" name="qty" value="{{ item.qty }}" min="0" aria-label="Quantity for {{ item.name }}">
+                        <button type="submit" class="button button-quiet">Update</button>
+                    </form>
+                    <form method="post" action="/cart/remove" class="remove-form"><input type="hidden" name="cart_item_id" value="{{ item.cart_item_id }}"><button type="submit" class="remove-button">Remove</button></form>
+                </div>
+                <div class="cart-line-total"><small>Line total</small><strong>₹{{ item.line_total }}</strong></div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    <aside class="summary-card">
+        <span class="eyebrow">ORDER SUMMARY</span><h2>Almost yours</h2>
+        <div class="summary-row"><span>Items subtotal</span><strong>₹{{ total }}</strong></div>
+        <div class="summary-note"><span class="summary-note-icon">✓</span><span>Review your order and continue when you’re ready.</span></div>
+        <div class="summary-total"><span>Total</span><strong>₹{{ total }}</strong></div>
+        <form method="post" action="/checkout"><button type="submit" class="button button-primary checkout-btn">Place your order <span aria-hidden="true">→</span></button></form>
+        <a class="summary-back" href="/products">Keep exploring</a>
+    </aside>
+</div>
+{% else %}
+<div class="empty-state empty-cart"><span class="empty-icon">＋</span><h2>Your cart is taking a little break</h2><p>Find something useful and it’ll show up here.</p><a href="/products" class="button button-primary">Explore the collection <span aria-hidden="true">→</span></a></div>
+{% endif %}
+{% endblock %}
